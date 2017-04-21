@@ -104,7 +104,7 @@ class scanCodes
      */
     static function keyUP($decCode, $asHex = false)
     {
-        $decCode = $decCode + hexdec('80');
+        $decCode = $decCode + 0x80;
         if ($asHex == false) {
             return $decCode;
         } else {
