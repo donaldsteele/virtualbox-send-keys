@@ -60,7 +60,7 @@ class lexer
 
             foreach ($matches[0] as $matchToken => $matchDetails) {
 
-                $watchStart = $matchDetails[1];
+                $watchStart = $matchDetails[1] - (strlen('^WAIT[]') * $matchToken);
                 // look in the second array [1] and get the corrisponding value inside our regex () match in this case the number passed to ^WAIT
                 $watchValue = $matches[1][$matchToken][0];
                 self::$wait[$watchStart] = $watchValue;
