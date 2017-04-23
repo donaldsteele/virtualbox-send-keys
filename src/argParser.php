@@ -13,18 +13,18 @@
 class argParser
 {
 
-    public $args;
+    public $Parsed;
 
 
     function __construct($my_arg = null)
     {
 
-        $this->args = $this->parseArguments($my_arg);
+        $this->Parsed = $this->parseArguments($my_arg);
 
-        if (array_key_exists('?', $this->args) ||
-            array_key_exists('help', $this->args) ||
-            array_key_exists('v', $this->args) === FALSE ||
-            array_key_exists('s', $this->args) === FALSE
+        if (array_key_exists('?', $this->Parsed) ||
+            array_key_exists('help', $this->Parsed) ||
+            array_key_exists('v', $this->Parsed) === FALSE ||
+            array_key_exists('s', $this->Parsed) === FALSE
         ) {
             $this->print_help();
             exit;
@@ -102,18 +102,19 @@ class argParser
      */
     function print_help()
     {
-        global $arguments;
+
         $this->display_message('====================================================');
-        $this->display_message($this->args[0] . ' Help');
+        $this->display_message($this->Parsed[0] . ' Help');
         $this->display_message('-v        Name of the vm to send to');
-        $this->display_message('-s    quoted string to send to vm');
+        $this->display_message('-s        quoted string to send to vm');
+        $this->display_message('-f        use file as string to send to vm');
         $this->display_message('');
         $this->display_message('Available control characters:');
         $this->display_message('^RETURN \n ^TAB \t');
         $this->display_message('');
         $this->display_message('Example: (login and download a file)');
-        $this->display_message($this->args[0] . ' -v="myVM" -s=\'root\nmypass\n\'');
-        $this->display_message($this->args[0] . ' -v="myVM" -s=\'wget http://www.somedomain.com/myfile.tar.gz\n\'');
+        $this->display_message($this->Parsed[0] . ' -v="myVM" -s=\'root\nmypass\n\'');
+        $this->display_message($this->Parsed[0] . ' -v="myVM" -s=\'wget http://www.somedomain.com/myfile.tar.gz\n\'');
         $this->display_message('');
 
 

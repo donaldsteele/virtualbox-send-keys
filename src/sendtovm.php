@@ -13,7 +13,7 @@ require_once 'argParser.php';
 $arguments = new argParser($_SERVER["argv"]);
 
 
-$scancodes = new scanCodes();
+$kbScanCodes = new scanCodes();
 
 
 function sendToVBOXwithDelay($vm, $codeArray)
@@ -28,18 +28,25 @@ function sendToVBOXwithDelay($vm, $codeArray)
 }
 
 
-if (array_key_exists('s', $arguments->args)) {
-    $codeArray = $scancodes->getFromString($arguments->args['s']);
+if (array_key_exists('s', $arguments->Parsed)) {
+    $codeArray = $kbScanCodes->getFromString($arguments->Parsed['s']);
 
-    /* } elseif (array_key_exists('c', $arguments)) {
-        TODO: beef this logic up to support more scripting
-        $codeArray = $scancodes->getFromString($arguments['c']); */
+} elseif (array_key_exists('s', $arguments->Parsed)) {
+
+    $inputFile = $arguments->Parsed['f'];
+
+    if (!file_exists($inputFile)) {
+        throw new exception('unable to locate file ' . $inputFile);
+    }
+    $scriptContents = file_get_contents($inputFile);
+
+    $codeArray = $kbScanCodes->getFromString($scriptContents);
 } else {
     throw new exception('something terribly went wrong ');
 }
 
 
-sendToVBOXwithDelay($arguments->args['v'], $codeArray);
+sendToVBOXwithDelay($arguments->Parsed['v'], $codeArray);
 
 
 
